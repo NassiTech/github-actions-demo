@@ -8,3 +8,10 @@ jobs:
     steps:
       - name: myfirststep
         run: echo "Hello World"
+  mysecondjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: thefirststepofjob2
+        run: echo "Hello I ome from the second job"
+      - name: thesecondstepofjob2
+        run: echo "I am the second step from job2"
