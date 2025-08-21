@@ -1,0 +1,22 @@
+name: Deployflow
+
+on: push
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkouts@v5
+
+      - name: SSH setup
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{secrets.SSH_ACTION_DEMO_KEY}}" > ~/.ssh/MyPrivateKey
+          chmod 400 ~/.ssh/MyPrivateKey
+           
+          ssh-keyscan -H "${{secrets.EC2_IP}}" >> ~/.ssh/known_hosts
+      - name: SSH connection
+        run: |
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir testFolderfromGithubActions"
