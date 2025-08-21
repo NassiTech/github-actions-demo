@@ -19,5 +19,5 @@ jobs:
           ssh-keyscan -H "${{secrets.EC2_IP}}" >> ~/.ssh/known_hosts
       - name: SSH connection
         run: |
-          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir testFolderfromGithubActions"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir ~/testFolderfromGithubActions"
           scp -i ~/.ssh/MyPrivateKey testFolderfromGithubActions/info.txt ubuntu@${{secrets.EC2_IP}}:~/testFolderfromGithubActions/info.txt
