@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkouts@v5
+        uses: actions/checkout@v5
 
       - name: SSH setup
         run: |
