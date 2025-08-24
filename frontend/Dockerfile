@@ -1,3 +1,4 @@
 FROM nginx:latest
-COPY index.html /usr/share/nginx/html
+COPY index.html  styles.css  javascript.js  /usr/share/nginx/html  
+
 EXPOSE 80
