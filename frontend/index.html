@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einkaufsliste</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="javascript.js" defer></script>
+</head>
+
+<body>
+
+
+
+
+    <h1>Einkaufsliste</h1>
+    <h2>The select element</h2>
+
+    <p>The select element is used to create a drop-down list.</p>
+
+    <input type="text" id="artikel" placeholder="Artikelname...">
+    <!--<input type="text" id="kategorie" placeholder="Kategorie...">-->
+    <select id="kategorie">
+        <option value="obst">Obst 🍎</option>
+        <option value="gemüse">Gemüse 🍆</option>
+        <option value="droguerie">Drogerie 🧼 </option>
+    </select>
+    <input type="number" id="anzahl" placeholder="Anzahl...">
+    <input type="number" id="preis" placeholder="Preis pro Stück...">
+    <button id="clearButton">Liste löschen</button>
+    <button id="addButton">Hinzufügen</button>
+    <button id="LightDarkButton">Lightmode-Darkmode</button>
+
+
+
+
+
+    <ul id="liste">
+
+
+    </ul>
+    <h5 id="gesamt"></h5>
+
+
+</body>
+
+</html>
