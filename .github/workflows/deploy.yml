@@ -17,7 +17,9 @@ jobs:
           chmod 400 ~/.ssh/MyPrivateKey
            
           ssh-keyscan -H "${{secrets.EC2_IP}}" >> ~/.ssh/known_hosts
-      - name: SSH connection
+      - name: copy files
         run: |
-          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir -p ~/testFolderfromGithubActions"
-          scp -i ~/.ssh/MyPrivateKey testFolderfromGithubActions/info.txt ubuntu@${{secrets.EC2_IP}}:~/testFolderfromGithubActions/info.txt
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir -p ~/frontend"
+          scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@${{secrets.EC2_IP}}:~/frontend
+
+# Dateien rüberkopieren → Image auf EC2 bauen → Container starten).
