@@ -21,6 +21,6 @@ jobs:
         run: |
           ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir -p ~/frontend"
           scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@${{secrets.EC2_IP}}:~/frontend
-          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "docker build -t --name myfrontend_container -p 8080:80 myfrontend ~/frontend"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "docker build -t myfrontend /home/ubuntu/frontend"
 
 # Dateien rüberkopieren → Image auf EC2 bauen → Container starten).
