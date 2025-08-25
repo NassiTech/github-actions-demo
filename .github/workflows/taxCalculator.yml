@@ -1,0 +1,42 @@
+name: test the deployment from TaxCalculator
+
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: install dependencies
+        run: |
+          cd testing mehrwertsteuer
+          npm install
+
+      - name: test
+        run: |
+          cd testing mehrwertsteuer
+          npm install
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: SSH setup
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{secrets.SSH_ACTION_DEMO_KEY}}" > ~/.ssh/MyPrivateKey
+          chmod 400 ~/.ssh/MyPrivateKey
+
+          ssh-keyscan -H "${{secrets.EC2_IP}}" >> ~/.ssh/known_hosts
+
+      - name: copy math.js toEC2 instance
+        run: |
+          scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@${{secrets.EC2_IP}}:~/frontend
