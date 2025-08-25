@@ -20,7 +20,7 @@ jobs:
 
       - name: cleanup
         run: |
-          ssh -i ~/.ssh/myPrivateKey ubuntu@${{secrets.EC2_IP}} "
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IP}} "
           docker stop myfrontend_container || true 
           docker rm myfrontend_container || true
           docker rmi myfrontend || true
