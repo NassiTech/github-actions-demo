@@ -17,7 +17,15 @@ jobs:
           chmod 400 ~/.ssh/MyPrivateKey
            
           ssh-keyscan -H "${{secrets.EC2_IP}}" >> ~/.ssh/known_hosts
-      - name: copy files
+
+      - name: cleanup
+        run: |
+          ssh -i ~/.ssh/myPrivateKey ubuntu@${{secrets.EC2_IP}} "
+          docker stop myfrontend_container || true 
+          docker rm myfrontend_container || true
+          docker rmi myfrontend || true
+          "
+      - name: copy files and build/start container in EC2
         run: |
           ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir -p ~/frontend"
           scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@${{secrets.EC2_IP}}:~/frontend
