@@ -37,6 +37,6 @@ jobs:
 
           ssh-keyscan -H "${{secrets.EC2_IP}}" >> ~/.ssh/known_hosts
 
-      - name: copy math.js toEC2 instance
+      - name: copy mehrwertsteuer.js toEC2 instance
         run: |
-          scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@${{secrets.EC2_IP}}:~/frontend
+          scp -i ~/.ssh/MyPrivateKey testing-mehrwertsteuer ubuntu@${{secrets.EC2_IP}}:home/ubuntu
