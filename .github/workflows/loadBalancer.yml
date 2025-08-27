@@ -25,6 +25,8 @@ jobs:
         run: |
           scp -i ~/.ssh/MyPrivateKey index.html ubuntu@"${{secrets.EC2_IP_1}}":/home/ubuntu/index.html
           ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP_1}}" "sudo cp /home/ubuntu/index.html  /var/www/html/index.html"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP_1}}" "sudo echo '<br>$(hostname)' >>  /var/www/html/index.html"
 
           scp -i ~/.ssh/MyPrivateKey index.html ubuntu@"${{secrets.EC2_IP_2}}":/home/ubuntu/index.html
           ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP_2}}" "sudo cp /home/ubuntu/index.html  /var/www/html/index.html"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP_2}}" "sudo echo '<br>$(hostname)' >>  /var/www/html/index.html"
