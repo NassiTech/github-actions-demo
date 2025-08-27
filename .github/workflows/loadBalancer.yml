@@ -1,0 +1,49 @@
+name: Deployflow
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: SSH setup
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{secrets.SSH_DEMOKEY}}" > ~/.ssh/MyPrivateKey
+          chmod 400 ~/.ssh/MyPrivateKey
+           
+          ssh-keyscan -H "${{secrets.EC2_IP}}" >> ~/.ssh/known_hosts
+
+      - name: cleanup
+        run: |
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IP}} "
+          docker stop myfrontend_container || true 
+          docker rm myfrontend_container || true
+          docker rmi myfrontend || true
+          "
+      - name: copy files and build/start container in EC2
+        run: |
+
+
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir -p home/frontend"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "mkdir -p home/frontend"
+
+          scp -i ~/.ssh/MyPrivateKey index.html ubuntu@52.29.138.134:home/ubuntu/index.html
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@52.29.138.134 sudo cp /home/ubuntu/index.html  /var/www/html/index.html
+
+          scp -i ~/.ssh/MyPrivateKey index.html ubuntu@54.93.174.146:home/ubuntu/index.html
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@54.93.174.146 sudo cp /home/ubuntu/index.html  /var/www/html/index.html
+
+
+
+
+
+
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "docker build -t myfrontend /home/ubuntu/frontend"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@"${{secrets.EC2_IP}}" "docker run -d --name myfrontend_container -p 8080:80 myfrontend"
+
+# Dateien rüberkopieren → Image auf EC2 bauen → Container starten).
