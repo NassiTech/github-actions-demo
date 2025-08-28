@@ -23,4 +23,4 @@ jobs:
           ssh-keyscan -H ${{secrets.EC2_IP_TEST}} >> ~/.ssh/known_hosts
           ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IP_TEST}} "mkdir -p /home/ubuntu/frontend/"
           scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@${{secrets.EC2_IP_TEST}}:/home/ubuntu/frontend/
-          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IP_TEST}} "sudo cp -r /home/ubuntu/frontend  /var/www/html/"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IP_TEST}} "sudo cp  /home/ubuntu/frontend/*  /var/www/html/"
