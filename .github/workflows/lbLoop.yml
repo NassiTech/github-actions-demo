@@ -1,0 +1,29 @@
+name: Deployflow
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: SSH setup and  keyscan
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{secrets.SSH_DEMOKEY}}" > ~/.ssh/MyPrivateKey
+          chmod 400 ~/.ssh/MyPrivateKey
+          for ip in ${{secrets.EC2_IPS}}; do
+          ssh-keyscan -H $ip >> ~/.ssh/known_hosts
+          done
+
+      - name: copy-data
+        run: |
+          for ip in ${{secrets.EC2_IPS}}; do
+          ssh-keyscan -H $ip >> ~/.ssh/known_hosts
+          done 
+          scp -i ~/.ssh/MyPrivateKey index.html ubuntu@$ip:/home/ubuntu/index.html
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip "sudo cp /home/ubuntu/index.html  /var/www/html/index.html"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip 'echo "<br>$(hostname)" | sudo tee -a /var/www/html/index.html'
