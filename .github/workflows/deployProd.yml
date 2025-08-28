@@ -22,7 +22,7 @@ jobs:
           ssh-keyscan -H $ip >> ~/.ssh/known_hosts
           done
 
-      - name: copy index.html file - nginx
+      - name: copy index.html file-nginx
         run: |
           for ip in ${{secrets.EC2_IPS}}; do
           ssh-keyscan -H $ip >> ~/.ssh/known_hosts
