@@ -1,0 +1,26 @@
+name: Deployflow for testing on EC2 machine
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: SSH setup and  keyscan
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{secrets.SSH_DEMOKEY}}" > ~/.ssh/MyPrivateKey
+          chmod 400 ~/.ssh/MyPrivateKey
+
+          ssh-keyscan -H ${{secrets.EC2_IP_TEST}} >> ~/.ssh/known_hosts
+
+      - name: copy index.html file for nginx
+        run: |
+          ssh-keyscan -H ${{secrets.EC2_IP_TEST}} >> ~/.ssh/known_hosts
+           
+          scp -i ~/.ssh/MyPrivateKey index.html ubuntu@${{secrets.EC2_IP_TEST}}:/home/ubuntu/index.html
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IP_TEST}} "sudo cp /home/ubuntu/index.html  /var/www/html/index.html"
