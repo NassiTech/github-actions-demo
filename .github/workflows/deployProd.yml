@@ -1,6 +1,9 @@
-name: Deployflow
+name: Deployflow for EC2 production machines (for loadbalancer)
 
-on: workflow_dispatch
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   deploy:
@@ -19,11 +22,12 @@ jobs:
           ssh-keyscan -H $ip >> ~/.ssh/known_hosts
           done
 
-      - name: copy-data
+      - name: copy index.html file - nginx
         run: |
           for ip in ${{secrets.EC2_IPS}}; do
           ssh-keyscan -H $ip >> ~/.ssh/known_hosts
-          done 
+
           scp -i ~/.ssh/MyPrivateKey index.html ubuntu@$ip:/home/ubuntu/index.html
           ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip "sudo cp /home/ubuntu/index.html  /var/www/html/index.html"
           ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip 'echo "<br>$(hostname)" | sudo tee -a /var/www/html/index.html'
+          done
