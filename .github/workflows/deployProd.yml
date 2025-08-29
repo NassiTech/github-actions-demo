@@ -29,5 +29,5 @@ jobs:
             
           ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IPS}} "mkdir -p /home/ubuntu/frontend/"
           scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@$ip:/home/ubuntu/frontend
-          ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip "sudo cp /home/ubuntu/frontend/*  /var/www/html/html"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip "sudo cp /home/ubuntu/frontend/*  /var/www/html"
           done
