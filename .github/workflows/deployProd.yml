@@ -26,7 +26,8 @@ jobs:
         run: |
           for ip in ${{secrets.EC2_IPS}}; do
           ssh-keyscan -H $ip >> ~/.ssh/known_hosts
-
-          scp -i ~/.ssh/MyPrivateKey index.html ubuntu@$ip:/home/ubuntu/index.html
+            
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IPS}} "mkdir -p /home/ubuntu/frontend/"
+          scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@$ip:/home/ubuntu/frontend
           ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip "sudo cp /home/ubuntu/index.html  /var/www/html/index.html"
           done
