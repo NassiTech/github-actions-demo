@@ -18,16 +18,16 @@ jobs:
 
           echo "${{secrets.SSH_DEMOKEY}}" > ~/.ssh/MyPrivateKey
           chmod 400 ~/.ssh/MyPrivateKey
-          for ip in ${{secrets.EC2_IPS}}; do
+          for ip in ${{secrets.EC2_IP_PROD_CHECK}}; do
           ssh-keyscan -H $ip >> ~/.ssh/known_hosts
           done
 
       - name: copy index.html file-nginx
         run: |
-          for ip in ${{secrets.EC2_IPS}}; do
+          for ip in ${{secrets.EC2_IP_PROD_CHECK}}; do
           ssh-keyscan -H $ip >> ~/.ssh/known_hosts
             
-          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IPS}} "mkdir -p /home/ubuntu/frontend/"
+          ssh -i ~/.ssh/MyPrivateKey ubuntu@${{secrets.EC2_IP_PROD_CHECK}} "mkdir -p /home/ubuntu/frontend/"
           scp -i ~/.ssh/MyPrivateKey frontend/* ubuntu@$ip:/home/ubuntu/frontend
           ssh -i ~/.ssh/MyPrivateKey ubuntu@$ip "sudo cp /home/ubuntu/frontend/*  /var/www/html"
           done
